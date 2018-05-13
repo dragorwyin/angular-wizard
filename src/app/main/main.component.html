@@ -1,0 +1,7 @@
+<div class="container">
+  <app-step1 (nextOut)="next($event)" *ngIf="step === 1"></app-step1>
+  <app-step2 (nextOut)="next($event)" *ngIf="step === 2"></app-step2>
+  <button class="button" (click)="prev()" *ngIf="step > 1" [disabled]="!isValid">Prev</button>
+  <button class="button" (click)="next()" *ngIf="step < 2" [disabled]="!isValid">Next</button>
+  <button class="button" *ngIf="step === 2" [disabled]="!isValid">Submit</button>
+</div>
