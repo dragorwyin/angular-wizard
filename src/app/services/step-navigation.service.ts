@@ -6,26 +6,45 @@ import { Observable } from 'rxjs/Observable';
 export class StepNavigationService {
 
   step = 1;
-  private valid = new Subject<boolean>();
+  valid = false;
+  data = [];
+  private validObs = new Subject<boolean>();
+  private stepObs = new Subject<number>();
+  private dataObs = new Subject<any>();
 
   constructor() {
 
   }
 
   setValid(valid) {
-    this.valid.next(valid);
+    this.valid = valid;
+    this.validObs.next(this.valid);
+  }
+
+  setData(d) {
+    this.data[d.step - 1] = d.data;
+    this.dataObs.next(this.data);
+  }
+
+  getIsValid(): Observable<boolean> {
+    return this.validObs.asObservable();
+  }
+
+  getStep(): Observable<number> {
+    return this.stepObs.asObservable();
+  }
+
+  getData(): Observable<number> {
+    return this.dataObs.asObservable();
   }
 
   back() {
-    this.step--;
+    this.step -= 1;
+    this.stepObs.next(this.step);
   }
 
   next() {
-    this.step++;
+    this.step += 1;
+    this.stepObs.next(this.step);
   }
-
-  isValid(): Observable<boolean> {
-    return this.valid.asObservable();
-  }
-
 }

@@ -10,19 +10,35 @@ export class MainComponent implements OnInit {
 
   step = 1;
   isValid = false;
+  nav: StepNavigationService;
+  data: any;
 
   constructor(private navigation: StepNavigationService) {
-    navigation.isValid().subscribe(data => {
+    navigation.getIsValid().subscribe(data => {
       this.isValid = data;
     });
+
+    navigation.getStep().subscribe(data => {
+      this.step = data;
+    });
+
+    navigation.getData().subscribe(data => {
+      this.data = data;
+    });
+
+    this.nav = navigation;
   }
 
   next($event) {
-    this.step++;
+    this.nav.next();
   }
 
   prev() {
-    this.step--;
+    this.nav.back();
+  }
+
+  submit() {
+    console.log(this.data);
   }
 
   ngOnInit() {

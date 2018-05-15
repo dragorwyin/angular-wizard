@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input, OnDestroy } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs/Observable';
 import { StepNavigationService } from '../services/step-navigation.service';
 
 @Component({
@@ -8,7 +10,15 @@ import { StepNavigationService } from '../services/step-navigation.service';
 })
 export class Step2Component implements OnInit {
 
-  constructor(private navigation: StepNavigationService) {
+  @Output() nextOut = new EventEmitter<number>();
+
+  constructor(
+    private fb: FormBuilder,
+    private navigation: StepNavigationService
+  ) {
+
+    navigation.setValid(true);
+    navigation.setData({ data: {}, step: 2 });
   }
 
   ngOnInit() {

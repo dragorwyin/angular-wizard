@@ -11,7 +11,6 @@ import { StepNavigationService } from '../services/step-navigation.service';
 export class Step1Component implements OnInit, OnDestroy {
 
   rForm: FormGroup;
-  post: any;
   description: String = '';
   name: String = '';
   titleAlert: String = 'This field is required';
@@ -26,17 +25,16 @@ export class Step1Component implements OnInit, OnDestroy {
 
     this.rForm = fb.group({
       'name': [null, Validators.required],
-      'description': [null, Validators.compose([Validators.required, Validators.minLength(30), Validators.maxLength(500)])],
-      'validate': ''
+      'description': [null, Validators.compose([
+        Validators.required, Validators.minLength(30),
+        Validators.maxLength(500)
+      ])],
     });
 
     this.interval = setInterval(() => {
       navigation.setValid(this.rForm.valid);
+      navigation.setData({ data: this.rForm.getRawValue(), step: 1 });
     }, 100);
-  }
-
-  next(values) {
-    this.nextOut.emit(values);
   }
 
   ngOnInit() {
@@ -45,6 +43,5 @@ export class Step1Component implements OnInit, OnDestroy {
   ngOnDestroy() {
     clearInterval(this.interval);
   }
-
 
 }
