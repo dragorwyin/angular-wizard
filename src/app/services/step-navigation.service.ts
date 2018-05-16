@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
+import { StepData } from '../stepData';
+import { Subject, Observable } from 'rxjs';
 
 @Injectable()
 export class StepNavigationService {
 
   step = 1;
   valid = false;
-  data = [];
+  data: Array<StepData> = [];
+
   private validObs = new Subject<boolean>();
   private stepObs = new Subject<number>();
-  private dataObs = new Subject<any>();
+  private dataObs = new Subject<Array<StepData>>();
 
   constructor() {
 
@@ -21,7 +22,7 @@ export class StepNavigationService {
     this.validObs.next(this.valid);
   }
 
-  setData(d) {
+  setData(d: StepData) {
     this.data[d.step - 1] = d.data;
     this.dataObs.next(this.data);
   }
@@ -34,7 +35,7 @@ export class StepNavigationService {
     return this.stepObs.asObservable();
   }
 
-  getData(): Observable<number> {
+  getData(): Observable<Array<StepData>> {
     return this.dataObs.asObservable();
   }
 

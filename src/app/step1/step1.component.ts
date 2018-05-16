@@ -1,6 +1,5 @@
 import { Component, OnInit, EventEmitter, Output, Input, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
 import { StepNavigationService } from '../services/step-navigation.service';
 
 @Component({
@@ -21,9 +20,10 @@ export class Step1Component implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private navigation: StepNavigationService
-  ) {
+  ) { }
 
-    this.rForm = fb.group({
+  ngOnInit() {
+    this.rForm = this.fb.group({
       'name': [null, Validators.required],
       'description': [null, Validators.compose([
         Validators.required, Validators.minLength(30),
@@ -32,12 +32,9 @@ export class Step1Component implements OnInit, OnDestroy {
     });
 
     this.interval = setInterval(() => {
-      navigation.setValid(this.rForm.valid);
-      navigation.setData({ data: this.rForm.getRawValue(), step: 1 });
+      this.navigation.setValid(this.rForm.valid);
+      this.navigation.setData({ data: this.rForm.getRawValue(), step: 1 });
     }, 100);
-  }
-
-  ngOnInit() {
   }
 
   ngOnDestroy() {

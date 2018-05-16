@@ -1,6 +1,5 @@
 import { Component, OnInit, EventEmitter, Output, Input, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
 import { StepNavigationService } from '../services/step-navigation.service';
 
 @Component({
@@ -15,13 +14,11 @@ export class Step2Component implements OnInit {
   constructor(
     private fb: FormBuilder,
     private navigation: StepNavigationService
-  ) {
-
-    navigation.setValid(true);
-    navigation.setData({ data: {}, step: 2 });
-  }
+  ) { }
 
   ngOnInit() {
+    this.navigation.setValid(true);
+    this.navigation.setData({ data: {}, step: 2 });
   }
 
 }

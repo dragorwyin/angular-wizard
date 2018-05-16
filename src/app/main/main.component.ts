@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StepNavigationService } from '../services/step-navigation.service';
+import { StepData } from '../stepData';
 
 @Component({
   selector: 'app-main',
@@ -11,23 +12,9 @@ export class MainComponent implements OnInit {
   step = 1;
   isValid = false;
   nav: StepNavigationService;
-  data: any;
+  data: Array<StepData>;
 
-  constructor(private navigation: StepNavigationService) {
-    navigation.getIsValid().subscribe(data => {
-      this.isValid = data;
-    });
-
-    navigation.getStep().subscribe(data => {
-      this.step = data;
-    });
-
-    navigation.getData().subscribe(data => {
-      this.data = data;
-    });
-
-    this.nav = navigation;
-  }
+  constructor(private navigation: StepNavigationService) { }
 
   next($event) {
     this.nav.next();
@@ -42,6 +29,19 @@ export class MainComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.navigation.getIsValid().subscribe((isValid: boolean) => {
+      this.isValid = isValid;
+    });
+
+    this.navigation.getStep().subscribe((step: number) => {
+      this.step = step;
+    });
+
+    this.navigation.getData().subscribe((data: Array<StepData>) => {
+      this.data = data;
+    });
+
+    this.nav = this.navigation;
   }
 
 }
